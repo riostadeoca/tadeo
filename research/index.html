@@ -37,11 +37,11 @@
 
         <article
           class="research-entry"
-          data-type="pdf"
-          data-href="RESEARCH-PDF-URL-1"
+          data-type="placeholder"
+          data-message="This project is currently in development."
           role="button"
           tabindex="0"
-          aria-label="Open PDF: Digital Glossary of Latin-Canadian Filmmakers"
+          aria-label="Digital Glossary of Latin-Canadian Filmmakers — currently in development"
         >
           <div class="research-year">2026</div>
           <div class="research-main">
@@ -137,6 +137,14 @@
   <div id="pdf-overlay">
     <button id="close-pdf" class="pdf-overlay-close" aria-label="Close PDF">×</button>
     <iframe id="pdf-frame" src="" title="Research PDF"></iframe>
+  </div>
+
+  <!-- INFO OVERLAY (for entries with no linked PDF/site yet) -->
+  <div id="info-overlay">
+    <button id="close-info" class="pdf-overlay-close" aria-label="Close">×</button>
+    <div class="info-overlay-content">
+      <div class="info-overlay-text" id="info-overlay-text"></div>
+    </div>
   </div>
 
 <style>
@@ -291,6 +299,37 @@
 
 .pdf-overlay-close:hover { opacity: 0.5; }
 
+#info-overlay {
+  position: fixed;
+  z-index: 300;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.65);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+}
+
+#info-overlay.open {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.info-overlay-content {
+  max-width: 500px;
+  padding: 0 25px;
+  text-align: center;
+}
+
+.info-overlay-text {
+  font-family: "Libre Baskerville", serif;
+  font-size: clamp(16px, 1.8vw, 22px);
+  line-height: 1.5;
+}
+
 @media (max-width: 700px) {
   .quiet-navigation { top: 18px; left: 18px; right: 18px; font-size: 8px; }
   .quiet-nav-links { gap: 10px; }
@@ -312,6 +351,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const pdfFrame = document.getElementById("pdf-frame");
   const closePdfButton = document.getElementById("close-pdf");
 
+  const infoOverlay = document.getElementById("info-overlay");
+  const infoOverlayText = document.getElementById("info-overlay-text");
+  const closeInfoButton = document.getElementById("close-info");
+
   function openPdf(url) {
     pdfFrame.src = url;
     pdfOverlay.classList.add("open");
@@ -322,15 +365,25 @@ document.addEventListener("DOMContentLoaded", function () {
     pdfFrame.src = ""; // stop loading/rendering once closed
   }
 
+  function openInfo(message) {
+    infoOverlayText.textContent = message;
+    infoOverlay.classList.add("open");
+  }
+
+  function closeInfo() {
+    infoOverlay.classList.remove("open");
+  }
+
   function activateEntry(entry) {
     const type = entry.dataset.type;
     const href = entry.dataset.href;
-    if (!href) return;
 
-    if (type === "pdf") {
+    if (type === "pdf" && href) {
       openPdf(href);
-    } else if (type === "link") {
+    } else if (type === "link" && href) {
       window.open(href, "_blank", "noopener");
+    } else if (type === "placeholder") {
+      openInfo(entry.dataset.message || "More information coming soon.");
     }
   }
 
@@ -348,9 +401,13 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   closePdfButton.addEventListener("click", closePdf);
+  closeInfoButton.addEventListener("click", closeInfo);
 
   document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") closePdf();
+    if (event.key === "Escape") {
+      closePdf();
+      closeInfo();
+    }
   });
 
 });
