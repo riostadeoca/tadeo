@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>about / contact — tadeo ríos-dávila</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:ital,wght@1,800&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/site-transition.css">
+</head>
+<body>
+
+<div id="site-transition-overlay"></div>
+
+<div id="about-page">
+
+  <nav class="about-navigation">
+    <a href="/" class="about-nav-name">tadeo ríos-dávila</a>
+    <div class="about-nav-links">
+      <a href="/films">films</a>
+      <a href="/installations">installations</a>
+      <a href="/research">research / programming</a>
+      <a href="/about" class="about-nav-current">about / contact</a>
+    </div>
+  </nav>
+
+  <main class="about-content">
+
+    <!-- ABOUT -->
+    <section class="about-statement">
+      <div class="about-label">ABOUT</div>
+      <div class="about-text">
+        <p>biography.</p>
+        <p>practice description.</p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact-section">
+      <div class="about-label">CONTACT</div>
+      <div class="contact-links">
+        <a href="mailto:YOUR-EMAIL">EMAIL</a>
+        <a href="YOUR-INSTAGRAM-URL">INSTAGRAM</a>
+        <a href="YOUR-CV-URL">CV</a>
+      </div>
+    </section>
+
+  </main>
+
+<style>
+
+#about-page {
+  min-height: 100vh;
+  width: 100%;
+  background: #000;
+  color: #fff;
+  font-family: "Libre Baskerville", serif;
+  box-sizing: border-box;
+}
+
+.about-navigation {
+  position: fixed;
+  z-index: 50;
+  top: 22px;
+  left: 25px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.about-navigation a {
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
+  transition: opacity 0.3s ease;
+}
+
+.about-navigation a:hover { opacity: 0.45; }
+.about-nav-name { flex-shrink: 0; }
+.about-nav-links { display: flex; align-items: center; gap: 22px; }
+.about-nav-current { opacity: 0.5; }
+
+.about-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 150px 25px 120px;
+  box-sizing: border-box;
+}
+
+.about-statement {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 650px);
+  column-gap: 50px;
+  margin-bottom: 170px;
+}
+
+.about-label {
+  font-family: "Almarai", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.about-text {
+  font-size: clamp(18px, 2vw, 28px);
+  line-height: 1.45;
+}
+
+.about-text p { margin: 0 0 35px; }
+.about-text p:last-child { margin-bottom: 0; }
+
+.contact-section {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  column-gap: 50px;
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.contact-links a {
+  color: #fff;
+  font-family: "Libre Baskerville", serif;
+  font-size: 13px;
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
+  transition: opacity 0.3s ease;
+}
+
+.contact-links a:hover { opacity: 0.45; }
+
+@media (max-width: 700px) {
+  .about-navigation { top: 18px; left: 18px; right: 18px; font-size: 8px; }
+  .about-nav-links { gap: 10px; }
+  .about-content { padding: 115px 18px 80px; }
+  .about-statement, .contact-section { display: block; }
+  .about-label { margin-bottom: 30px; }
+  .about-statement { margin-bottom: 100px; }
+  .about-text { font-size: 18px; }
+}
+
+</style>
+
+</div>
+
+<script src="/assets/site-transition.js"></script>
+</body>
+</html>

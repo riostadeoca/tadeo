@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>research / programming — tadeo ríos-dávila</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:ital,wght@1,800&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/site-transition.css">
+</head>
+<body>
+
+<div id="site-transition-overlay"></div>
+
+<div id="research-page">
+
+  <nav class="quiet-navigation">
+    <a href="/" class="quiet-nav-name">tadeo ríos-dávila</a>
+    <div class="quiet-nav-links">
+      <a href="/films">films</a>
+      <a href="/installations">installations</a>
+      <a href="/research" class="quiet-nav-current">research / programming</a>
+      <a href="/about">about / contact</a>
+    </div>
+  </nav>
+
+  <main class="research-content">
+
+    <!-- RESEARCH -->
+    <section class="research-section">
+      <div class="research-label">RESEARCH</div>
+
+      <div class="research-list">
+
+        <article class="research-entry">
+          <div class="research-year">2026</div>
+          <div class="research-main">
+            <div class="research-title">Digital Glossary of Latin-Canadian Filmmakers</div>
+            <div class="research-description">
+              Research and editorial project documenting Latin-Canadian filmmakers and their practices.
+            </div>
+          </div>
+          <div class="research-context">VLAFF</div>
+        </article>
+
+        <article class="research-entry">
+          <div class="research-year">2026</div>
+          <div class="research-main">
+            <div class="research-title">Expanded Cinema and Architecture</div>
+            <div class="research-description">
+              Research into the relationship between cinematic space, architecture, installation, and expanded cinema.
+            </div>
+          </div>
+          <div class="research-context">Research</div>
+        </article>
+
+        <article class="research-entry">
+          <div class="research-year">2025</div>
+          <div class="research-main">
+            <div class="research-title">Research Project</div>
+            <div class="research-description">Description coming soon.</div>
+          </div>
+          <div class="research-context">Research</div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- PROGRAMMING -->
+    <section class="research-section" id="programming">
+      <div class="research-label">PROGRAMMING</div>
+
+      <div class="research-list">
+
+        <article class="research-entry">
+          <div class="research-year">2026</div>
+          <div class="research-main">
+            <div class="research-title">Vancouver Latin American Film Festival</div>
+            <div class="research-description">Festival programming, research, and editorial work.</div>
+          </div>
+          <div class="research-context">VLAFF</div>
+        </article>
+
+        <article class="research-entry">
+          <div class="research-year">2025</div>
+          <div class="research-main">
+            <div class="research-title">Programming Project</div>
+            <div class="research-description">Description coming soon.</div>
+          </div>
+          <div class="research-context">Programming</div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+<style>
+
+#research-page {
+  min-height: 100vh;
+  width: 100%;
+  background: #000;
+  color: #fff;
+  font-family: "Libre Baskerville", serif;
+  box-sizing: border-box;
+}
+
+.quiet-navigation {
+  position: fixed;
+  z-index: 50;
+  top: 22px;
+  left: 25px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.quiet-navigation a {
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
+  transition: opacity 0.3s ease;
+}
+
+.quiet-navigation a:hover { opacity: 0.45; }
+.quiet-nav-name { flex-shrink: 0; }
+.quiet-nav-links { display: flex; align-items: center; gap: 22px; }
+.quiet-nav-current { opacity: 0.5; }
+
+.research-content {
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 95px 25px 100px;
+}
+
+.research-section { margin-bottom: 130px; }
+
+.research-label {
+  font-family: "Almarai", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 45px;
+}
+
+.research-entry {
+  display: grid;
+  grid-template-columns: 80px 1fr 160px;
+  column-gap: 30px;
+  padding: 22px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  transition: opacity 0.3s ease;
+}
+
+.research-entry:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.research-entry:hover { opacity: 0.55; }
+
+.research-year {
+  font-size: 10px;
+  line-height: 1.5;
+  opacity: 0.6;
+}
+
+.research-title {
+  font-size: clamp(17px, 1.7vw, 24px);
+  line-height: 1.25;
+  margin-bottom: 9px;
+}
+
+.research-description {
+  max-width: 600px;
+  font-size: 11px;
+  line-height: 1.6;
+  opacity: 0.65;
+}
+
+.research-context {
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: right;
+  opacity: 0.55;
+}
+
+@media (max-width: 700px) {
+  .quiet-navigation { top: 18px; left: 18px; right: 18px; font-size: 8px; }
+  .quiet-nav-links { gap: 10px; }
+  .research-content { padding: 115px 18px 70px; }
+  .research-section { margin-bottom: 90px; }
+  .research-label { margin-bottom: 30px; }
+  .research-entry { grid-template-columns: 45px 1fr; column-gap: 15px; }
+  .research-context { grid-column: 2; text-align: left; margin-top: 12px; }
+}
+
+</style>
+
+</div>
+
+<script src="/assets/site-transition.js"></script>
+</body>
+</html>

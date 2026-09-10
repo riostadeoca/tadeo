@@ -1,0 +1,26 @@
+/* =========================================================
+   SITE-WIDE PAGE TRANSITION
+   Linked from every page's <head>. Paints the page black
+   immediately (no white flash before content/CSS loads) and
+   provides the fade overlay used during navigation.
+========================================================= */
+
+html, body {
+  background: #000 !important;
+  margin: 0;
+}
+
+#site-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+#site-transition-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}

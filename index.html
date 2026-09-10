@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tadeo ríos-dávila</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:ital,wght@1,800&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/site-transition.css">
+</head>
+<body>
+
+<div id="site-transition-overlay"></div>
+
+<div id="home-page">
+
+  <!-- BACKGROUND -->
+  <div class="home-background" aria-hidden="true"></div>
+
+  <!-- CONTENT -->
+  <main class="home-content">
+    <div class="home-text">
+      <a href="/about" class="home-name">tadeo ríos-dávila</a>
+      <nav class="home-links">
+        <a href="/films">films</a>
+        <a href="/installations">installations</a>
+        <a href="/research">research</a>
+      </nav>
+    </div>
+  </main>
+
+<style>
+
+#home-page {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+}
+
+.home-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/3fa5313f-5645-481b-a558-73e343673939/11.jpg?format=2500w");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  transform: scale(1.01);
+}
+
+.home-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.home-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.home-text {
+  margin-left: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.home-name {
+  color: #fff;
+  font-family: "Libre Baskerville", serif;
+  font-size: clamp(28px, 4vw, 58px);
+  line-height: 1;
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 28px;
+  transition: opacity 0.35s ease;
+}
+
+.home-name:hover { opacity: 0.55; }
+
+.home-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.home-links a {
+  color: #fff;
+  font-family: "Libre Baskerville", serif;
+  font-size: clamp(12px, 1vw, 15px);
+  line-height: 1.2;
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
+  transition: opacity 0.35s ease;
+}
+
+.home-links a:hover { opacity: 0.55; }
+
+@media (max-width: 700px) {
+  .home-text { margin-left: 18px; }
+  .home-name { font-size: 30px; margin-bottom: 22px; }
+  .home-links { gap: 6px; }
+  .home-links a { font-size: 11px; }
+}
+
+</style>
+
+</div>
+
+<script src="/assets/site-transition.js"></script>
+</body>
+</html>

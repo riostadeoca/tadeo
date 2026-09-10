@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>installations — tadeo ríos-dávila</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:ital,wght@1,800&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/site-transition.css">
+</head>
+<body>
+
+<div id="site-transition-overlay"></div>
+
+<div id="installation-gallery">
+
+  <!-- =====================================================
+       SITE NAVIGATION
+  ====================================================== -->
+  <nav class="installation-navigation">
+    <a href="/" class="installation-nav-name">tadeo ríos-dávila</a>
+    <div class="installation-nav-links">
+      <a href="/films">films</a>
+      <a href="/installations" class="installation-nav-current">installations</a>
+      <a href="/research">research / programming</a>
+      <a href="/about">about / contact</a>
+    </div>
+  </nav>
+
+  <!-- =====================================================
+       MOVING INSTALLATION TITLES (double-wheel marquee)
+  ====================================================== -->
+  <div class="installation-marquee installation-marquee-one">
+    <div class="installation-marquee-track" id="installation-marquee-one"></div>
+  </div>
+
+  <div class="installation-marquee installation-marquee-two">
+    <div class="installation-marquee-track" id="installation-marquee-two"></div>
+  </div>
+
+  <!-- =====================================================
+       FULL SCREEN IMAGES
+  ====================================================== -->
+  <div class="installation-images">
+    <img class="installation-image active" id="installation-image-one" src="" alt="">
+    <img class="installation-image" id="installation-image-two" src="" alt="">
+  </div>
+
+  <!-- =====================================================
+       BOTTOM INFORMATION
+  ====================================================== -->
+  <div class="installation-information">
+    <div class="installation-details">
+      <div class="installation-year" id="installation-year"></div>
+      <div class="installation-title" id="installation-title"></div>
+      <div class="installation-meta" id="installation-meta"></div>
+      <div class="installation-description" id="installation-description"></div>
+    </div>
+
+    <div class="installation-controls">
+      <div class="installation-counter" id="installation-counter">01 / 02</div>
+
+      <div class="installation-arrows">
+        <button id="installation-previous" aria-label="Previous installation">←</button>
+        <button id="installation-next" aria-label="Next installation">→</button>
+      </div>
+
+      <button id="installation-credits-button" class="installation-button">CREDITS</button>
+      <button id="installation-enter-button" class="installation-button">ENTER</button>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       CREDITS
+  ====================================================== -->
+  <div id="installation-credits">
+    <button id="installation-close-credits" class="installation-overlay-close" aria-label="Close credits">×</button>
+    <div class="installation-credits-content">
+      <div class="installation-credits-title" id="installation-credits-title"></div>
+      <div class="installation-credits-text" id="installation-credits-text"></div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       INTERACTIVE WORK
+  ====================================================== -->
+  <div id="installation-work">
+    <button id="installation-close-work" class="installation-overlay-close" aria-label="Close installation">×</button>
+
+    <div id="installation-work-content" class="installation-work-content">
+
+      <!-- loading state -->
+      <div id="installation-work-loading" class="installation-work-status installation-work-loading">
+        <div class="installation-work-status-inner">
+          <div class="installation-work-spinner" aria-hidden="true"></div>
+          <div class="installation-work-status-title" id="installation-loading-text">loading…</div>
+        </div>
+      </div>
+
+      <!-- failure fallback state -->
+      <div id="installation-work-error" class="installation-work-status installation-work-error">
+        <img id="installation-error-still" class="installation-error-still" alt="">
+        <div class="installation-work-status-inner">
+          <div class="installation-work-status-title">This piece couldn't load</div>
+          <p class="installation-work-status-text">
+            That's almost always because hardware acceleration is off in your browser.
+            Open the help tab for the two-minute fix.
+          </p>
+          <button id="installation-work-retry" class="installation-button">TRY AGAIN</button>
+        </div>
+      </div>
+
+      <iframe id="installation-unity" src="" allow="fullscreen" allowfullscreen title="Installation"></iframe>
+      <video id="installation-video" controls playsinline></video>
+
+      <!-- help tab -->
+      <button id="installation-help-toggle" class="installation-help-toggle" aria-expanded="false" aria-controls="installation-help-panel">
+        HELP
+      </button>
+
+      <div id="installation-help-panel" class="installation-help-panel" role="dialog" aria-label="Troubleshooting help">
+        <button id="installation-help-close" class="installation-overlay-close installation-help-close" aria-label="Close help">×</button>
+        <div class="installation-help-content">
+          <div class="installation-help-title">Trouble loading this piece?</div>
+
+          <p>
+            This installation is built with 3D graphics that need your browser's hardware
+            (or "graphics") acceleration turned on. It's on by default in most browsers —
+            if this piece won't load, that setting has probably been switched off.
+          </p>
+
+          <div class="installation-help-subtitle">How to turn it on</div>
+
+          <ul class="installation-help-list">
+            <li>
+              <strong>Chrome / Edge</strong> — go to
+              <a href="chrome://settings/system" target="_blank" rel="noopener">Settings → System</a>,
+              turn on "Use graphics acceleration when available," then relaunch the browser.
+            </li>
+            <li>
+              <strong>Firefox</strong> — go to
+              <a href="about:preferences/general" target="_blank" rel="noopener">Settings → General</a>,
+              scroll to Performance, uncheck "Use recommended performance settings," then check
+              "Use hardware acceleration when available."
+            </li>
+            <li>
+              <strong>Safari</strong> — this is on by default and rarely needs changing.
+            </li>
+          </ul>
+
+          <p>
+            <a href="https://get.webgl.org/" target="_blank" rel="noopener">Test whether your browser supports this →</a>
+          </p>
+
+          <p class="installation-help-note">
+            If the piece didn't fill your screen automatically, your browser may have blocked
+            the fullscreen request — press F11 (Windows) or Ctrl + Cmd + F (Mac) to toggle it yourself.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+<style>
+
+/* =========================================================
+   FULL SCREEN GALLERY
+========================================================= */
+#installation-gallery {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  z-index: 9999;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+.installation-navigation {
+  position: absolute;
+  z-index: 50;
+  top: 22px;
+  left: 25px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Libre Baskerville", serif;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.installation-navigation a {
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.installation-navigation a:hover { opacity: 0.45; }
+.installation-nav-name { flex-shrink: 0; }
+.installation-nav-links { display: flex; align-items: center; gap: 22px; }
+.installation-nav-current { opacity: 0.5 !important; }
+
+/* =========================================================
+   IMAGES
+========================================================= */
+.installation-images { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.installation-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  opacity: 0;
+  transition: opacity 1.8s ease-in-out;
+  pointer-events: none;
+}
+
+.installation-image.active { opacity: 1; }
+
+/* =========================================================
+   MOVING TITLES
+========================================================= */
+.installation-marquee {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.installation-marquee-one { top: 55px; }
+.installation-marquee-two { top: 105px; }
+
+.installation-marquee-track {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: "Almarai", sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: clamp(52px, 8vw, 135px);
+  line-height: 0.72;
+  letter-spacing: -0.055em;
+  will-change: transform;
+}
+
+.installation-marquee-one .installation-marquee-track {
+  animation: installation-marquee-left 80s linear infinite;
+}
+
+.installation-marquee-two .installation-marquee-track {
+  animation: installation-marquee-left 90s linear infinite;
+}
+
+@keyframes installation-marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* pause the marquee while an overlay is open — no point animating
+   something the visitor can't see, and it's one less thing running */
+#installation-gallery:has(#installation-credits.open) .installation-marquee-track,
+#installation-gallery:has(#installation-work.open) .installation-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .installation-marquee-track { animation: none; }
+}
+
+/* =========================================================
+   BOTTOM INFORMATION
+========================================================= */
+.installation-information {
+  position: absolute;
+  z-index: 30;
+  left: 25px;
+  right: 25px;
+  bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.installation-details { max-width: 60%; }
+
+.installation-year {
+  font-family: "Libre Baskerville", serif;
+  font-size: 11px;
+  line-height: 1.3;
+  margin-bottom: 5px;
+}
+
+.installation-title {
+  font-family: "Libre Baskerville", serif;
+  font-size: clamp(20px, 2vw, 30px);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 7px;
+}
+
+.installation-meta {
+  font-family: "Libre Baskerville", serif;
+  font-size: 11px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.installation-description {
+  max-width: 520px;
+  font-family: "Libre Baskerville", serif;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+.installation-controls { display: flex; align-items: center; gap: 20px; }
+
+.installation-counter {
+  font-family: "Libre Baskerville", serif;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.installation-arrows { display: flex; gap: 12px; }
+
+.installation-arrows button,
+.installation-button {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-family: "Libre Baskerville", serif;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.installation-arrows button { font-size: 17px; }
+
+.installation-arrows button:hover,
+.installation-button:hover { opacity: 0.45; }
+
+.installation-arrows button[aria-disabled="true"],
+.installation-button[aria-disabled="true"] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* =========================================================
+   CREDITS OVERLAY
+========================================================= */
+#installation-credits {
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.65);
+  overflow-y: auto;
+  transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+}
+
+#installation-credits.open {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.installation-credits-content {
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: 100px 25px 80px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
+}
+
+#installation-credits.open .installation-credits-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.installation-credits-title {
+  font-family: "Libre Baskerville", serif;
+  font-size: clamp(20px, 2.5vw, 36px);
+  line-height: 1.1;
+  margin-bottom: 30px;
+}
+
+.installation-credits-text {
+  max-width: 700px;
+  font-family: "Libre Baskerville", serif;
+  font-size: 11px;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+
+/* =========================================================
+   INTERACTIVE WORK
+========================================================= */
+#installation-work {
+  position: fixed;
+  z-index: 300;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.7s ease, visibility 0s linear 0.7s;
+}
+
+#installation-work.open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.7s ease;
+}
+
+.installation-work-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-family: "Libre Baskerville", serif;
+}
+
+/* loading / error status screens share a layout */
+.installation-work-status {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.installation-work-status.visible { display: flex; }
+
+.installation-work-status-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 380px;
+  padding: 0 25px;
+}
+
+.installation-work-status-title {
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  margin-bottom: 6px;
+}
+
+.installation-work-status-text {
+  font-size: 11px;
+  line-height: 1.5;
+  opacity: 0.7;
+  margin: 10px 0 18px;
+}
+
+.installation-work-spinner {
+  width: 16px;
+  height: 16px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #fff;
+  animation: installation-spin 0.9s linear infinite;
+}
+
+@keyframes installation-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .installation-work-spinner { animation: none; }
+}
+
+.installation-work-error .installation-work-status-inner {
+  pointer-events: auto;
+}
+
+.installation-error-still {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.18;
+  z-index: 1;
+}
+
+#installation-work-retry {
+  pointer-events: auto;
+}
+
+/* =========================================================
+   HELP TAB
+========================================================= */
+.installation-help-toggle {
+  position: absolute;
+  z-index: 320;
+  right: 0;
+  bottom: 40px;
+  appearance: none;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-family: "Libre Baskerville", serif;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 8px 10px;
+  cursor: pointer;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  transition: background 0.3s ease, opacity 0.3s ease;
+}
+
+.installation-help-toggle:hover { background: rgba(255, 255, 255, 0.2); }
+
+.installation-help-panel {
+  position: absolute;
+  z-index: 315;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(340px, 82vw);
+  background: rgba(10, 10, 10, 0.97);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  overflow-y: auto;
+  text-align: left;
+  transform: translateX(100%);
+  transition: transform 0.45s ease;
+}
+
+.installation-help-panel.open {
+  transform: translateX(0);
+}
+
+.installation-help-content {
+  padding: 70px 28px 40px;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.installation-help-title {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.installation-help-subtitle {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  margin: 20px 0 8px;
+  opacity: 0.75;
+}
+
+.installation-help-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.installation-help-list li {
+  margin-bottom: 12px;
+}
+
+.installation-help-content a {
+  color: #fff;
+  opacity: 0.85;
+}
+
+.installation-help-content a:hover { opacity: 1; }
+
+.installation-help-note {
+  margin-top: 20px;
+  opacity: 0.6;
+}
+
+.installation-help-close {
+  top: 18px;
+  right: 18px;
+  font-size: 22px;
+}
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+.installation-overlay-close {
+  position: absolute;
+  z-index: 330;
+  top: 22px;
+  right: 25px;
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-family: "Libre Baskerville", serif;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.installation-overlay-close:hover { opacity: 0.5; }
+
+/* =========================================================
+   MOBILE
+========================================================= */
+@media (max-width: 700px) {
+  .installation-navigation { top: 18px; left: 18px; right: 18px; font-size: 8px; }
+  .installation-nav-links { gap: 10px; }
+  .installation-information { left: 18px; right: 18px; bottom: 18px; }
+  .installation-details { max-width: 65%; }
+  .installation-description { display: none; }
+  .installation-controls { gap: 11px; }
+  .installation-counter { font-size: 9px; }
+  .installation-arrows button,
+  .installation-button { font-size: 9px; }
+  .installation-arrows button { font-size: 15px; }
+  .installation-help-panel { width: 100vw; }
+}
+
+/* =========================================================
+   INSTALLATION MEDIA
+========================================================= */
+#installation-unity,
+#installation-video {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: none;
+}
+
+#installation-unity { position: absolute; inset: 0; }
+
+#installation-video {
+  position: absolute;
+  inset: 0;
+  object-fit: contain;
+  background: #000;
+}
+
+#installation-work.unity-open #installation-unity { display: block; }
+#installation-work.video-open #installation-video { display: block; }
+
+/* hide the media behind whichever status screen is active */
+#installation-work.loading #installation-unity,
+#installation-work.loading #installation-video,
+#installation-work.errored #installation-unity,
+#installation-work.errored #installation-video {
+  visibility: hidden;
+}
+
+/* =========================================================
+   CONTENT CROSS-FADE
+========================================================= */
+.installation-details,
+.installation-counter,
+.installation-arrows,
+.installation-button,
+.installation-marquee {
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.installation-content-fading { opacity: 0; transform: translateY(6px); }
+
+</style>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       INSTALLATION DATA
+    ===================================================== */
+
+    const installations = [
+      {
+        title: "CATCHING YAWNS FROM ONE ANOTHER",
+        year: "2026",
+        marqueeSpeed: 60,
+        meta: "8 min · Four-channel installation",
+        description: "Description coming soon.",
+        credits: "Credits coming soon.",
+        type: "unity",
+        url: "https://catchingyawnsgallery.netlify.app/",
+        stills: [
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/c3a70c48-5bd2-494c-9504-051e9c1cb236/1.jpg",
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/9b2a27a8-4e80-4bde-bc8c-b716de57e98b/5.JPG",
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/0bd51354-aa0f-4ac9-936c-c1d759e924b5/9.jpg",
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/d9c79fbd-fb15-497c-bee3-b572e473b306/8.jpg",
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/3d24c147-87f2-499c-af60-7b2d42dfe61f/19.jpg",
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/c6805f29-4291-497e-86d1-5061f56f9bc1/P1033513.jpg",
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/290d1985-b938-4a5e-aaf9-1d5657ed13c7/P1033629.jpg",
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/fad57321-64ba-4b41-9248-4986bde0a656/P1033365.jpg",
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/070f4e01-4730-48d9-bfc2-5d61bb8c1f11/4.jpg"
+        ]
+      },
+      {
+        title: "STATION TO STATION",
+        year: "2025",
+        marqueeSpeed: 46,
+        meta: "4 min · Installation",
+        description: "Description coming soon.",
+        credits: "Credits coming soon.",
+        type: "video",
+        url: "PASTE SQUARESPACE VIDEO URL HERE",
+        stills: [
+          "STATION TO STATION STILL 1 URL",
+          "STATION TO STATION STILL 2 URL",
+          "STATION TO STATION STILL 3 URL"
+        ]
+      }
+    ];
+
+
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
+
+    const imageOne = document.getElementById("installation-image-one");
+    const imageTwo = document.getElementById("installation-image-two");
+
+    const title = document.getElementById("installation-title");
+    const year = document.getElementById("installation-year");
+    const meta = document.getElementById("installation-meta");
+    const description = document.getElementById("installation-description");
+    const counter = document.getElementById("installation-counter");
+
+    const marqueeOne = document.getElementById("installation-marquee-one");
+    const marqueeTwo = document.getElementById("installation-marquee-two");
+    const marqueeOneWrap = document.querySelector(".installation-marquee-one");
+    const marqueeTwoWrap = document.querySelector(".installation-marquee-two");
+
+    const credits = document.getElementById("installation-credits");
+    const creditsTitle = document.getElementById("installation-credits-title");
+    const creditsText = document.getElementById("installation-credits-text");
+
+    const work = document.getElementById("installation-work");
+    const workLoading = document.getElementById("installation-work-loading");
+    const loadingText = document.getElementById("installation-loading-text");
+    const workError = document.getElementById("installation-work-error");
+    const errorStill = document.getElementById("installation-error-still");
+    const retryButton = document.getElementById("installation-work-retry");
+    const unityFrame = document.getElementById("installation-unity");
+    const installationVideo = document.getElementById("installation-video");
+
+    const helpToggle = document.getElementById("installation-help-toggle");
+    const helpPanel = document.getElementById("installation-help-panel");
+    const helpClose = document.getElementById("installation-help-close");
+
+    const prevButton = document.getElementById("installation-previous");
+    const nextButton = document.getElementById("installation-next");
+    const creditsButton = document.getElementById("installation-credits-button");
+    const closeCreditsButton = document.getElementById("installation-close-credits");
+    const enterButton = document.getElementById("installation-enter-button");
+    const closeWorkButton = document.getElementById("installation-close-work");
+
+
+    /* =====================================================
+       STATE
+    ===================================================== */
+
+    let currentInstallation = 0;
+    let currentStill = 0;
+    let stillTimer = null;
+    let isTransitioning = false;
+    let unityLoadFallbackTimer = null;
+
+    const imageCache = new Set(); // urls we've already asked the browser to preload
+
+
+    /* =====================================================
+       RESPONSIVE IMAGE HELPERS
+    ===================================================== */
+
+    function baseUrl(url) {
+      return url.split("?")[0];
+    }
+
+    function buildSrcSet(url) {
+      const clean = baseUrl(url);
+      return [750, 1500, 2500].map((w) => clean + "?format=" + w + "w " + w + "w").join(", ");
+    }
+
+    function preload(url) {
+      if (!url || imageCache.has(url)) return;
+      imageCache.add(url);
+      const img = new Image();
+      img.srcset = buildSrcSet(url);
+      img.sizes = "100vw";
+      img.src = baseUrl(url) + "?format=2500w";
+    }
+
+
+    /* =====================================================
+       MARQUEE
+    ===================================================== */
+
+    function updateMarquee() {
+      const installation = installations[currentInstallation];
+      const text = installation.title + "     ";
+
+      marqueeOne.textContent = text.repeat(12);
+      marqueeTwo.textContent = text.repeat(12);
+
+      const speed = installation.marqueeSpeed;
+      marqueeOneWrap.style.setProperty("--marquee-speed", speed + "s");
+      marqueeOne.style.animationDuration = speed + "s";
+      marqueeTwo.style.animationDuration = (speed * 1.18) + "s";
+    }
+
+
+    /* =====================================================
+       INFORMATION
+    ===================================================== */
+
+    function updateInformation() {
+      const installation = installations[currentInstallation];
+
+      title.textContent = installation.title;
+      year.textContent = installation.year;
+      meta.textContent = installation.meta;
+      description.textContent = installation.description;
+
+      counter.textContent =
+        String(currentInstallation + 1).padStart(2, "0") +
+        " / " +
+        String(installations.length).padStart(2, "0");
+
+      updateMarquee();
+    }
+
+
+    /* =====================================================
+       SHOW STILL
+    ===================================================== */
+
+    function showStill(index) {
+      const installation = installations[currentInstallation];
+      const nextImage = installation.stills[index];
+      const alt = installation.title;
+
+      const incoming = imageOne.classList.contains("active") ? imageTwo : imageOne;
+      const outgoing = imageOne.classList.contains("active") ? imageOne : imageTwo;
+
+      incoming.srcset = buildSrcSet(nextImage);
+      incoming.sizes = "100vw";
+      incoming.src = baseUrl(nextImage) + "?format=2500w";
+      incoming.alt = alt;
+
+      incoming.classList.add("active");
+      outgoing.classList.remove("active");
+
+      // get the next still warming in the cache while this one is showing
+      const upcoming = installation.stills[(index + 1) % installation.stills.length];
+      preload(upcoming);
+    }
+
+
+    /* =====================================================
+       STILL ROTATION
+    ===================================================== */
+
+    function startStillRotation() {
+      clearInterval(stillTimer);
+      stillTimer = setInterval(function () {
+        const installation = installations[currentInstallation];
+        currentStill = (currentStill + 1) % installation.stills.length;
+        showStill(currentStill);
+      }, 5000);
+    }
+
+
+    /* =====================================================
+       CHANGE INSTALLATION
+    ===================================================== */
+
+    function setArrowsDisabled(disabled) {
+      prevButton.setAttribute("aria-disabled", String(disabled));
+      nextButton.setAttribute("aria-disabled", String(disabled));
+    }
+
+    function changeInstallation(direction) {
+      if (isTransitioning) return; // ignore rapid clicks mid-transition
+      isTransitioning = true;
+      setArrowsDisabled(true);
+
+      const contentElements = [
+        document.querySelector(".installation-details"),
+        document.querySelector(".installation-counter"),
+        document.querySelector(".installation-arrows"),
+        creditsButton,
+        enterButton,
+        marqueeOneWrap,
+        marqueeTwoWrap
+      ];
+
+      contentElements.forEach(function (element) {
+        element.classList.add("installation-content-fading");
+      });
+
+      // start warming the next installation's opening still right away
+      const nextIndex = (currentInstallation + direction + installations.length) % installations.length;
+      preload(installations[nextIndex].stills[0]);
+
+      setTimeout(function () {
+        currentInstallation = nextIndex;
+        currentStill = 0;
+
+        updateInformation();
+        showStill(0);
+        startStillRotation();
+
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            contentElements.forEach(function (element) {
+              element.classList.remove("installation-content-fading");
+            });
+            isTransitioning = false;
+            setArrowsDisabled(false);
+          });
+        });
+      }, 700);
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    updateInformation();
+
+    imageOne.srcset = buildSrcSet(installations[0].stills[0]);
+    imageOne.sizes = "100vw";
+    imageOne.src = baseUrl(installations[0].stills[0]) + "?format=2500w";
+    imageOne.alt = installations[0].title;
+    imageOne.classList.add("active");
+    imageCache.add(installations[0].stills[0]);
+
+    preload(installations[0].stills[1]);
+    preload(installations[1] ? installations[1].stills[0] : null);
+
+    startStillRotation();
+
+
+    /* =====================================================
+       NAVIGATION
+    ===================================================== */
+
+    function onPrevClick() { changeInstallation(-1); }
+    function onNextClick() { changeInstallation(1); }
+    prevButton.addEventListener("click", onPrevClick);
+    nextButton.addEventListener("click", onNextClick);
+
+
+    /* =====================================================
+       CREDITS
+    ===================================================== */
+
+    function onCreditsClick() {
+      const installation = installations[currentInstallation];
+      creditsTitle.textContent = installation.title;
+      creditsText.textContent = installation.credits;
+      credits.classList.add("open");
+    }
+
+    function onCloseCreditsClick() {
+      credits.classList.remove("open");
+    }
+
+    creditsButton.addEventListener("click", onCreditsClick);
+    closeCreditsButton.addEventListener("click", onCloseCreditsClick);
+
+
+    /* =====================================================
+       WEBGL SUPPORT CHECK
+       A quick, synchronous check for whether this browser can
+       even create a WebGL context — this is what Unity WebGL
+       builds need, and it's usually unavailable when hardware
+       acceleration is switched off.
+    ===================================================== */
+
+    function hasWebGL() {
+      try {
+        const canvas = document.createElement("canvas");
+        return !!(
+          window.WebGLRenderingContext &&
+          (canvas.getContext("webgl2") || canvas.getContext("webgl"))
+        );
+      } catch (e) {
+        return false;
+      }
+    }
+
+
+    /* =====================================================
+       FULLSCREEN HELPERS
+       Requesting fullscreen has to happen synchronously inside
+       a user gesture (the ENTER click) or the browser will
+       silently ignore it — so this is called right at the top
+       of onEnterClick, before anything async.
+    ===================================================== */
+
+    function requestFullscreenSafe(element) {
+      const request =
+        element.requestFullscreen ||
+        element.webkitRequestFullscreen ||
+        element.msRequestFullscreen;
+
+      if (!request) return; // Fullscreen API unsupported (common on iOS Safari) — fail quietly
+
+      try {
+        const result = request.call(element);
+        if (result && typeof result.catch === "function") {
+          result.catch(function () {
+            // request was denied or blocked — the help panel explains the manual shortcut
+          });
+        }
+      } catch (e) {
+        // some browsers throw synchronously instead of rejecting a promise
+      }
+    }
+
+    function exitFullscreenSafe() {
+      const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+      if (!isFullscreen) return;
+
+      const exit =
+        document.exitFullscreen ||
+        document.webkitExitFullscreen ||
+        document.msExitFullscreen;
+
+      if (exit) {
+        try { exit.call(document); } catch (e) { /* ignore */ }
+      }
+    }
+
+
+    /* =====================================================
+       ENTER / CLOSE INSTALLATION
+    ===================================================== */
+
+    function showWorkLoading() {
+      work.classList.remove("errored");
+      work.classList.add("loading");
+      workError.classList.remove("visible");
+      workLoading.classList.add("visible");
+    }
+
+    function hideWorkLoading() {
+      work.classList.remove("loading");
+      workLoading.classList.remove("visible");
+      clearTimeout(unityLoadFallbackTimer);
+    }
+
+    function showWorkError() {
+      const installation = installations[currentInstallation];
+
+      clearTimeout(unityLoadFallbackTimer);
+      work.classList.remove("loading");
+      work.classList.add("errored");
+      workLoading.classList.remove("visible");
+
+      errorStill.src = installation.stills[0] ? baseUrl(installation.stills[0]) + "?format=1500w" : "";
+      workError.classList.add("visible");
+
+      openHelp(); // the fix is exactly what they need right now — surface it automatically
+    }
+
+    function onUnityMessage(event) {
+      if (!event.data || !event.data.type) return;
+
+      if (event.data.type === "unity-loaded") {
+        hideWorkLoading();
+      } else if (event.data.type === "unity-error") {
+        showWorkError();
+      }
+    }
+
+    window.addEventListener("message", onUnityMessage);
+
+    function onEnterClick() {
+      const installation = installations[currentInstallation];
+
+      // must happen synchronously, inside the click, or the browser drops the request
+      requestFullscreenSafe(work);
+
+      if (installation.type === "unity" && !hasWebGL()) {
+        // no point loading a multi-megabyte build we already know can't run
+        work.classList.add("open", "unity-open");
+        work.classList.remove("video-open");
+        showWorkError();
+        return;
+      }
+
+      showWorkLoading();
+
+      if (installation.type === "unity") {
+        installationVideo.pause();
+        installationVideo.removeAttribute("src");
+
+        unityFrame.src = installation.url;
+
+        // safety net — treats a build that never responds as a failure
+        // rather than hiding the loading screen and leaving a blank frame
+        clearTimeout(unityLoadFallbackTimer);
+        unityLoadFallbackTimer = setTimeout(showWorkError, 45000);
+
+        work.classList.remove("video-open");
+        work.classList.add("open", "unity-open");
+      } else if (installation.type === "video") {
+        unityFrame.src = "";
+
+        installationVideo.oncanplaythrough = hideWorkLoading;
+        installationVideo.onerror = showWorkError;
+        installationVideo.src = installation.url;
+
+        work.classList.remove("unity-open");
+        work.classList.add("open", "video-open");
+
+        installationVideo.play().catch(function () {
+          // autoplay can be blocked by the browser; the visible controls let them press play manually
+          hideWorkLoading();
+        });
+      }
+    }
+
+    function onRetryClick() {
+      onEnterClick();
+    }
+
+    function closeWork() {
+      work.classList.remove("open", "unity-open", "video-open", "loading", "errored");
+      hideWorkLoading();
+      workError.classList.remove("visible");
+      closeHelp();
+      clearTimeout(unityLoadFallbackTimer);
+      unityFrame.src = "";
+      installationVideo.pause();
+      installationVideo.removeAttribute("src");
+      exitFullscreenSafe();
+    }
+
+    enterButton.addEventListener("click", onEnterClick);
+    closeWorkButton.addEventListener("click", closeWork);
+    retryButton.addEventListener("click", onRetryClick);
+
+
+    /* =====================================================
+       HELP TAB
+    ===================================================== */
+
+    function openHelp() {
+      helpPanel.classList.add("open");
+      helpToggle.setAttribute("aria-expanded", "true");
+    }
+
+    function closeHelp() {
+      helpPanel.classList.remove("open");
+      helpToggle.setAttribute("aria-expanded", "false");
+    }
+
+    function onHelpToggleClick() {
+      if (helpPanel.classList.contains("open")) {
+        closeHelp();
+      } else {
+        openHelp();
+      }
+    }
+
+    helpToggle.addEventListener("click", onHelpToggleClick);
+    helpClose.addEventListener("click", closeHelp);
+
+
+    /* =====================================================
+       ESCAPE
+    ===================================================== */
+
+    function onKeydown(event) {
+      if (event.key !== "Escape") return;
+
+      if (helpPanel.classList.contains("open")) {
+        closeHelp();
+        return;
+      }
+
+      credits.classList.remove("open");
+      closeWork();
+    }
+
+    document.addEventListener("keydown", onKeydown);
+
+
+});
+
+</script>
+
+</div>
+
+<script src="/assets/site-transition.js"></script>
+</body>
+</html>

@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>films — tadeo ríos-dávila</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:ital,wght@1,800&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/site-transition.css">
+</head>
+<body>
+
+<div id="site-transition-overlay"></div>
+
+<div id="film-gallery">
+
+  <!-- =====================================================
+       SITE NAVIGATION
+  ====================================================== -->
+  <nav class="site-navigation">
+    <a href="/" class="nav-name">tadeo ríos-dávila</a>
+    <div class="nav-links">
+      <a href="/films" class="nav-current">films</a>
+      <a href="/installations">installations</a>
+      <a href="/research">research / programming</a>
+      <a href="/about">about / contact</a>
+    </div>
+  </nav>
+
+  <!-- =====================================================
+       MOVING TITLES
+  ====================================================== -->
+  <div class="film-marquee marquee-one">
+    <div class="marquee-track" id="marquee-one"></div>
+  </div>
+  <div class="film-marquee marquee-two">
+    <div class="marquee-track" id="marquee-two"></div>
+  </div>
+
+  <!-- =====================================================
+       FULL SCREEN VIDEO PREVIEW
+  ====================================================== -->
+  <div class="film-preview">
+    <video id="preview-video" muted playsinline autoplay preload="auto"></video>
+  </div>
+
+  <!-- =====================================================
+       BOTTOM INFORMATION
+  ====================================================== -->
+  <div class="film-information">
+    <div class="film-details">
+      <div class="film-year" id="film-year"></div>
+      <div class="film-title" id="film-title"></div>
+      <div class="film-meta" id="film-meta"></div>
+      <div class="film-description" id="film-description"></div>
+    </div>
+
+    <div class="film-controls">
+      <div class="film-counter" id="film-counter">01 / 03</div>
+      <div class="film-arrows">
+        <button id="previous-film" aria-label="Previous film">←</button>
+        <button id="next-film" aria-label="Next film">→</button>
+      </div>
+      <button id="credits-button" class="credits-button">CREDITS</button>
+      <button id="watch-film" class="watch-button">WATCH</button>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       FULL SCREEN VIDEO PLAYER
+  ====================================================== -->
+  <div id="film-player">
+    <button id="close-player" class="overlay-close" aria-label="Close video">×</button>
+    <div id="film-player-frame">
+      <iframe id="vimeo-player" src="" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       CREDITS OVERLAY
+  ====================================================== -->
+  <div id="credits-overlay">
+    <button id="close-credits" class="overlay-close" aria-label="Close credits">×</button>
+    <div class="credits-content">
+      <div class="credits-title" id="credits-title"></div>
+      <div class="credits-text" id="credits-text"></div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+
+/* =========================================================
+   FULL SCREEN GALLERY
+========================================================= */
+#film-gallery {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  z-index: 9999;
+}
+
+/* =========================================================
+   FULL SCREEN VIDEO PREVIEW
+========================================================= */
+.film-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+#preview-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  opacity: 0;
+  background: #000;
+  pointer-events: none;
+  transition: opacity 1.4s ease-in-out;
+}
+
+#preview-video.playing {
+  opacity: 1;
+}
+
+/* =========================================================
+   SITE NAVIGATION
+========================================================= */
+.site-navigation {
+  position: absolute;
+  z-index: 50;
+  top: 22px;
+  left: 25px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Libre Baskerville", serif;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.site-navigation a {
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.site-navigation a:hover { opacity: 0.45; }
+.nav-name { flex-shrink: 0; }
+.nav-links { display: flex; align-items: center; gap: 22px; }
+.nav-current { opacity: 0.5 !important; }
+
+/* =========================================================
+   MOVING FILM TITLES
+========================================================= */
+.film-marquee {
+  position: absolute;
+  z-index: 15;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.marquee-one { top: 52px; }
+.marquee-two { top: 102px; }
+
+.marquee-track {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: "Almarai", sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: clamp(52px, 8vw, 135px);
+  line-height: 0.72;
+  letter-spacing: -0.055em;
+  will-change: transform;
+  animation: marquee-left 48s linear infinite;
+}
+
+.marquee-two .marquee-track {
+  animation-duration: 62s;
+}
+
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+/* =========================================================
+   BOTTOM INFORMATION
+========================================================= */
+.film-information {
+  position: absolute;
+  z-index: 30;
+  left: 25px;
+  right: 25px;
+  bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.film-details { max-width: 60%; }
+
+.film-year {
+  font-family: "Libre Baskerville", serif;
+  font-size: 11px;
+  line-height: 1.3;
+  margin-bottom: 5px;
+}
+
+.film-title {
+  font-family: "Libre Baskerville", serif;
+  font-size: clamp(20px, 2vw, 30px);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 7px;
+}
+
+.film-meta {
+  font-family: "Libre Baskerville", serif;
+  font-size: 11px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.film-description {
+  max-width: 520px;
+  font-family: "Libre Baskerville", serif;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+.film-controls { display: flex; align-items: center; gap: 20px; }
+
+.film-counter {
+  font-family: "Libre Baskerville", serif;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.film-arrows { display: flex; gap: 12px; }
+
+.film-arrows button,
+.watch-button,
+.credits-button {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-family: "Libre Baskerville", serif;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.film-arrows button { font-size: 17px; }
+
+.film-arrows button:hover,
+.watch-button:hover,
+.credits-button:hover { opacity: 0.45; }
+
+.film-arrows button[aria-disabled="true"] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* =========================================================
+   VIDEO PLAYER
+========================================================= */
+#film-player {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease, visibility 0s linear 0.6s;
+}
+
+#film-player.open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.6s ease;
+}
+
+#film-player-frame {
+  width: 100%;
+  height: 100%;
+  transform: scale(0.97);
+  transition: transform 0.6s ease;
+}
+
+#film-player.open #film-player-frame {
+  transform: scale(1);
+}
+
+#vimeo-player {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.overlay-close {
+  position: absolute;
+  z-index: 110;
+  top: 22px;
+  right: 25px;
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-family: "Libre Baskerville", serif;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.overlay-close:hover { opacity: 0.5; }
+
+/* =========================================================
+   CREDITS
+========================================================= */
+#credits-overlay {
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.65);
+  overflow-y: auto;
+  transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+}
+
+#credits-overlay.open {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.credits-content {
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: 100px 25px 80px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
+}
+
+#credits-overlay.open .credits-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.credits-title {
+  font-family: "Libre Baskerville", serif;
+  font-size: clamp(20px, 2.5vw, 36px);
+  line-height: 1.1;
+  margin-bottom: 30px;
+}
+
+.credits-text {
+  max-width: 700px;
+  font-family: "Libre Baskerville", serif;
+  font-size: 11px;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+@media (max-width: 700px) {
+  .marquee-one { top: 58px; }
+  .marquee-two { top: 100px; }
+  .marquee-track { font-size: 43px; }
+
+  .film-information { left: 18px; right: 18px; bottom: 18px; }
+  .film-details { max-width: 65%; }
+  .film-description { display: none; }
+  .film-controls { gap: 11px; }
+  .film-counter { font-size: 9px; }
+
+  .film-arrows button,
+  .watch-button,
+  .credits-button { font-size: 9px; }
+
+  .film-arrows button { font-size: 15px; }
+
+  .site-navigation { top: 18px; left: 18px; right: 18px; font-size: 8px; }
+  .nav-links { gap: 10px; }
+}
+
+/* =========================================================
+   FILM CONTENT CROSS-FADE
+========================================================= */
+.film-details,
+.film-counter,
+.film-arrows,
+.watch-button,
+.credits-button,
+.film-marquee {
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.film-content-fading {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+</style>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       FILM DATA
+       `video` can be any Vimeo URL you have on hand — the
+       page URL, a share link, whatever. It's resolved to a
+       real embeddable player URL automatically at watch time.
+    ===================================================== */
+
+    const films = [
+      {
+        title: "CATCHING YAWNS FROM ONE ANOTHER",
+        year: "2026",
+        marqueeSpeed: 70,
+        meta: "8 min · Four-Channel Installation - Festival Screener",
+        description: "Two siblings go to the fair.",
+        credits:
+          "directed, edited, and installed by Tadeo Ríos-Dávila\n\n" +
+          "shot by Adolfo Bermudez\n\n" +
+          "with Sophie Diebold and Adrian Hoz\n\n" +
+          "supervision by Erika Latta and Wladimiro Woyno Rodriguez",
+        preview: "https://res.cloudinary.com/vfetpdhp/video/upload/v1788058868/catching_small_clip_2.mp4",
+        video: "https://vimeo.com/user60230886/catchingyawns"
+      },
+      {
+        title: "AIN'T THAT SOME SHIT",
+        year: "2025",
+        marqueeSpeed: 48,
+        meta: "15 min · Live Set Music Video",
+        description: "Kasper Linh, the paintings and songs",
+        credits:
+          "directed, edited, and shot by Tadeo Ríos-Dávila\n\n" +
+          "paintings and music by Kasper Linh",
+        stills: [
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/736b19d0-f538-4858-adfc-485d1f77b623/2.JPG?format=original",
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/f15f6494-79fa-4351-83b7-ab7200096f19/4.JPG?format=original",
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/a0d0d70d-df2b-4224-a1c6-d7da21401f82/5.JPG?format=original"
+        ],
+        preview: "https://res.cloudinary.com/vfetpdhp/video/upload/v1788058839/aint_that_clip_small_2.mp4",
+        video: "https://vimeo.com/user60230886/aintthatsomeshit"
+      },
+      {
+        title: "EXCHANGE OF PASSION - TYPE ONE JOY",
+        year: "2026",
+        marqueeSpeed: 75,
+        meta: "23 min · Documentary Music Video",
+        description: "A video and its making in Merritt, BC.",
+        credits:
+          "directed, edited, and shot by Tadeo Ríos-Dávila\n\n" +
+          "music and performance by Aijazsaid and Kasper Linh",
+        stills: [
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/52118079-fb4d-4150-8310-f921f466bf23/P1033311.JPG?format=original",
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/d52b96e1-1724-45fe-a2fa-5ee1690a40a6/P1033322.JPG?format=original",
+          "https://images.squarespace-cdn.com/content/v1/6a91c1f34794520a2eed0bce/a7ca9b91-b4ae-4f8b-b822-1ff909988b87/P1033333.JPG?format=original"
+        ],
+        preview: "https://res.cloudinary.com/vfetpdhp/video/upload/v1788059060/exchange_of_small_clip_2.mp4",
+        video: "https://vimeo.com/user60230886/typeonejoy"
+      }
+    ];
+
+
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
+
+    const previewVideo = document.getElementById("preview-video");
+    const filmTitle = document.getElementById("film-title");
+    const filmYear = document.getElementById("film-year");
+    const filmMeta = document.getElementById("film-meta");
+    const filmDescription = document.getElementById("film-description");
+    const filmCounter = document.getElementById("film-counter");
+    const marqueeOne = document.getElementById("marquee-one");
+    const marqueeTwo = document.getElementById("marquee-two");
+    const creditsTitle = document.getElementById("credits-title");
+    const creditsText = document.getElementById("credits-text");
+    const player = document.getElementById("film-player");
+    const vimeoPlayer = document.getElementById("vimeo-player");
+    const creditsOverlay = document.getElementById("credits-overlay");
+
+    const prevButton = document.getElementById("previous-film");
+    const nextButton = document.getElementById("next-film");
+    const creditsButton = document.getElementById("credits-button");
+    const closeCreditsButton = document.getElementById("close-credits");
+    const watchButton = document.getElementById("watch-film");
+    const closePlayerButton = document.getElementById("close-player");
+
+    const fadeElements = [
+      document.querySelector(".film-details"),
+      document.querySelector(".film-counter"),
+      document.querySelector(".film-arrows"),
+      watchButton,
+      creditsButton,
+      document.querySelector(".marquee-one"),
+      document.querySelector(".marquee-two")
+    ];
+
+
+    /* =====================================================
+       STATE
+    ===================================================== */
+
+    let currentFilm = 0;
+    let changingFilm = false;
+    let previewRestartTimer;
+
+    const vimeoEmbedCache = new Map(); // page URL -> resolved player URL
+
+
+    /* =====================================================
+       VIMEO EMBED RESOLUTION
+       Turns any vimeo.com URL (vanity link, share link, page
+       link) into the real player.vimeo.com URL required for
+       embedding. Framing vimeo.com pages directly is refused
+       by Vimeo's own headers — only the player subdomain
+       accepts being put in an iframe.
+    ===================================================== */
+
+    async function resolveVimeoEmbedUrl(url) {
+      if (!url) return url;
+      if (url.indexOf("player.vimeo.com") !== -1) return url;
+
+      if (vimeoEmbedCache.has(url)) {
+        return vimeoEmbedCache.get(url);
+      }
+
+      try {
+        const response = await fetch(
+          "https://vimeo.com/api/oembed.json?url=" + encodeURIComponent(url)
+        );
+        const data = await response.json();
+        const match = data.html && data.html.match(/src="([^"]+)"/);
+
+        if (match) {
+          vimeoEmbedCache.set(url, match[1]);
+          return match[1];
+        }
+      } catch (error) {
+        // network hiccup or the video's embed privacy is blocking us —
+        // fall through and try the original URL as a last resort
+      }
+
+      return url;
+    }
+
+    function withPlayerParams(embedUrl) {
+      // merge our params into whatever query string (including any
+      // privacy hash like ?h=...) the resolved URL already carries
+      try {
+        const parsed = new URL(embedUrl);
+        parsed.searchParams.set("autoplay", "1");
+        parsed.searchParams.set("title", "0");
+        parsed.searchParams.set("byline", "0");
+        parsed.searchParams.set("portrait", "0");
+        parsed.searchParams.set("dnt", "1");
+        return parsed.toString();
+      } catch (error) {
+        return embedUrl;
+      }
+    }
+
+
+    /* =====================================================
+       MARQUEE
+    ===================================================== */
+
+    function updateMarquee() {
+      const film = films[currentFilm];
+      const text = film.title + "     ";
+
+      marqueeOne.textContent = text.repeat(12);
+      marqueeTwo.textContent = text.repeat(12);
+
+      const speed = film.marqueeSpeed || 48;
+      marqueeOne.style.animationDuration = speed + "s";
+      marqueeTwo.style.animationDuration = (speed * 1.29) + "s";
+    }
+
+
+    /* =====================================================
+       FILM INFORMATION
+    ===================================================== */
+
+    function updateFilmInformation() {
+      const film = films[currentFilm];
+
+      filmTitle.textContent = film.title;
+      filmYear.textContent = film.year;
+      filmMeta.textContent = film.meta;
+      filmDescription.textContent = film.description;
+      filmCounter.textContent =
+        String(currentFilm + 1).padStart(2, "0") + " / " + String(films.length).padStart(2, "0");
+
+      updateMarquee();
+    }
+
+
+    /* =====================================================
+       FILM PREVIEW VIDEO
+    ===================================================== */
+
+    function playPreview() {
+      clearTimeout(previewRestartTimer);
+
+      const film = films[currentFilm];
+
+      previewVideo.classList.remove("playing");
+      previewVideo.pause();
+      previewVideo.currentTime = 0;
+      previewVideo.src = film.preview;
+      previewVideo.load();
+
+      previewVideo.oncanplay = function () {
+        previewVideo.play()
+          .then(function () {
+            requestAnimationFrame(function () {
+              previewVideo.classList.add("playing");
+            });
+          })
+          .catch(function () {
+            // autoplay can be blocked by some browsers; the video is
+            // muted, so this normally won't happen — fail silently
+          });
+      };
+
+      previewVideo.onended = function () {
+        previewVideo.classList.remove("playing");
+        previewRestartTimer = setTimeout(playPreview, 1800);
+      };
+    }
+
+
+    /* =====================================================
+       CHANGE FILM
+    ===================================================== */
+
+    function setArrowsDisabled(disabled) {
+      prevButton.setAttribute("aria-disabled", String(disabled));
+      nextButton.setAttribute("aria-disabled", String(disabled));
+    }
+
+    function changeFilm(direction) {
+      if (changingFilm) return; // ignore rapid clicks mid-transition
+      changingFilm = true;
+      setArrowsDisabled(true);
+
+      fadeElements.forEach(function (element) {
+        if (element) element.classList.add("film-content-fading");
+      });
+
+      previewVideo.classList.remove("playing");
+
+      setTimeout(function () {
+        currentFilm = (currentFilm + direction + films.length) % films.length;
+
+        updateFilmInformation();
+        playPreview();
+
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            fadeElements.forEach(function (element) {
+              if (element) element.classList.remove("film-content-fading");
+            });
+            changingFilm = false;
+            setArrowsDisabled(false);
+          });
+        });
+      }, 700);
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    updateFilmInformation();
+    playPreview();
+
+
+    /* =====================================================
+       FILM NAVIGATION
+    ===================================================== */
+
+    function onPrevClick() { changeFilm(-1); }
+    function onNextClick() { changeFilm(1); }
+    prevButton.addEventListener("click", onPrevClick);
+    nextButton.addEventListener("click", onNextClick);
+
+
+    /* =====================================================
+       WATCH
+    ===================================================== */
+
+    async function onWatchClick() {
+      const film = films[currentFilm];
+
+      const embedUrl = await resolveVimeoEmbedUrl(film.video);
+      vimeoPlayer.src = withPlayerParams(embedUrl);
+
+      player.classList.add("open");
+    }
+
+    watchButton.addEventListener("click", onWatchClick);
+
+
+    /* =====================================================
+       CLOSE VIDEO
+    ===================================================== */
+
+    function onClosePlayerClick() {
+      vimeoPlayer.src = "";
+      player.classList.remove("open");
+    }
+
+    closePlayerButton.addEventListener("click", onClosePlayerClick);
+
+
+    /* =====================================================
+       CREDITS
+    ===================================================== */
+
+    function onCreditsClick() {
+      const film = films[currentFilm];
+      creditsTitle.textContent = film.title;
+      creditsText.textContent = film.credits;
+      creditsOverlay.classList.add("open");
+    }
+
+    function onCloseCreditsClick() {
+      creditsOverlay.classList.remove("open");
+    }
+
+    creditsButton.addEventListener("click", onCreditsClick);
+    closeCreditsButton.addEventListener("click", onCloseCreditsClick);
+
+
+    /* =====================================================
+       ESCAPE
+    ===================================================== */
+
+    function onKeydown(event) {
+      if (event.key === "Escape") {
+        onClosePlayerClick();
+        creditsOverlay.classList.remove("open");
+      }
+    }
+
+    document.addEventListener("keydown", onKeydown);
+
+
+});
+
+</script>
+
+<script src="/assets/site-transition.js"></script>
+</body>
+</html>
