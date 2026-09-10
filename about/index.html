@@ -35,12 +35,11 @@
       <div class="about-text">
         <p>I’m an Argentinian filmmaker, installation artist, programmer, and researcher living in Vancouver, BC. I graduated in Art History and Cinema Studies from Simon Fraser University’s School for the Contemporary Arts, and I currently work with the Vancouver Latin American Film Festival.
 
-My practice moves between filmmaking, installation, and programming, with a focus on independent, improvised, and experimental cinema. I’m interested in ambiguous relationships, displacement, memory, and the weird ways people connect with one another and the places they inhabit. My work lives between fiction and documentary, using improvisation and formal experimentation to create room for uncertainty and discovery.
+        <p>My practice moves between filmmaking, installation, and programming, with a focus on independent, improvised, and experimental cinema. I’m interested in ambiguous relationships, displacement, memory, and the weird ways people connect with one another and the places they inhabit. My work lives between fiction and documentary, using improvisation and formal experimentation to create room for uncertainty and discovery.
 
-In my installations, I’m interested in taking film beyond the single screen and into physical space, creating embodied cinematic experiences through image, sound, architecture, and movement, where space is negotiated rather than guaranteed. Through my work, I see cinema as something intimate, meditative, playful, and political. 
+        <p>In my installations, I’m interested in taking film beyond the single screen and into physical space, creating embodied cinematic experiences through image, sound, architecture, and movement, where space is negotiated rather than guaranteed. Through my work, I see cinema as something intimate, meditative, playful, and political. 
 
-“These days, my notion of the fantastic is closer to what we call reality. Perhaps because reality approaches the fantastic more and more” - Julio Cortazar
-</p>
+        <p>“These days, my notion of the fantastic is closer to what we call reality. Perhaps because reality approaches the fantastic more and more” - Julio Cortazar.
         
       </div>
     </section>
@@ -131,9 +130,21 @@ In my installations, I’m interested in taking film beyond the single screen an
 
 .about-text p + p {
   padding-top: 35px;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);\
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+  
+.contact-section {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  column-gap: 50px;
 }
 
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
 .contact-links a {
   color: #fff;
   font-family: "Libre Baskerville", serif;
