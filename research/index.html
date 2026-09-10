@@ -35,7 +35,14 @@
 
       <div class="research-list">
 
-        <article class="research-entry">
+        <article
+          class="research-entry"
+          data-type="pdf"
+          data-href="RESEARCH-PDF-URL-1"
+          role="button"
+          tabindex="0"
+          aria-label="Open PDF: Digital Glossary of Latin-Canadian Filmmakers"
+        >
           <div class="research-year">2026</div>
           <div class="research-main">
             <div class="research-title">Digital Glossary of Latin-Canadian Filmmakers</div>
@@ -46,22 +53,20 @@
           <div class="research-context">VLAFF</div>
         </article>
 
-        <article class="research-entry">
-          <div class="research-year">2026</div>
-          <div class="research-main">
-            <div class="research-title">Expanded Cinema and Architecture</div>
-            <div class="research-description">
-              Research into the relationship between cinematic space, architecture, installation, and expanded cinema.
-            </div>
-          </div>
-          <div class="research-context">Research</div>
-        </article>
-
-        <article class="research-entry">
+        <article
+          class="research-entry"
+          data-type="pdf"
+          data-href="RESEARCH-PDF-URL-2"
+          role="button"
+          tabindex="0"
+          aria-label="Open PDF: Installation Cinema: Architectural and Narrative Possibilities"
+        >
           <div class="research-year">2025</div>
           <div class="research-main">
-            <div class="research-title">Research Project</div>
-            <div class="research-description">Description coming soon.</div>
+            <div class="research-title">Installation Cinema: Architectural and Narrative Possibilities</div>
+            <div class="research-description">
+              Eassay on the relationship between narrative, architecture, installation, and expanded cinema.
+            </div>
           </div>
           <div class="research-context">Research</div>
         </article>
@@ -75,20 +80,50 @@
 
       <div class="research-list">
 
-        <article class="research-entry">
+        <article
+          class="research-entry"
+          data-type="link"
+          data-href="PROGRAM-URL-1"
+          role="button"
+          tabindex="0"
+          aria-label="View program: Canada Looks South, opens in a new tab"
+        >
           <div class="research-year">2026</div>
           <div class="research-main">
             <div class="research-title">Vancouver Latin American Film Festival</div>
-            <div class="research-description">Festival programming, research, and editorial work.</div>
+            <div class="research-description">Canada Looks South - three short film programs</div>
           </div>
           <div class="research-context">VLAFF</div>
         </article>
 
-        <article class="research-entry">
-          <div class="research-year">2025</div>
+        <article
+          class="research-entry"
+          data-type="link"
+          data-href="PROGRAM-URL-2"
+          role="button"
+          tabindex="0"
+          aria-label="View program: New Directors, opens in a new tab"
+        >
+          <div class="research-year">2024</div>
           <div class="research-main">
-            <div class="research-title">Programming Project</div>
-            <div class="research-description">Description coming soon.</div>
+            <div class="research-title">Vancouver Latin American Film Festival</div>
+            <div class="research-description">New Directors - seven feature film screenings.</div>
+          </div>
+          <div class="research-context">Programming</div>
+        </article>
+
+        <article
+          class="research-entry"
+          data-type="link"
+          data-href="PROGRAM-URL-3"
+          role="button"
+          tabindex="0"
+          aria-label="View program: IGNITE! Youth Arts Festival, opens in a new tab"
+        >
+          <div class="research-year">2024</div>
+          <div class="research-main">
+            <div class="research-title">IGNITE! Youth Arts Festival</div>
+            <div class="research-description">Programming comittee for the entire festival.</div>
           </div>
           <div class="research-context">Programming</div>
         </article>
@@ -97,6 +132,12 @@
     </section>
 
   </main>
+
+  <!-- PDF VIEWER -->
+  <div id="pdf-overlay">
+    <button id="close-pdf" class="pdf-overlay-close" aria-label="Close PDF">×</button>
+    <iframe id="pdf-frame" src="" title="Research PDF"></iframe>
+  </div>
 
 <style>
 
@@ -160,6 +201,7 @@
   padding: 22px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.22);
   transition: opacity 0.3s ease;
+  cursor: pointer;
 }
 
 .research-entry:last-child {
@@ -167,6 +209,11 @@
 }
 
 .research-entry:hover { opacity: 0.55; }
+
+.research-entry:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.55);
+  outline-offset: 4px;
+}
 
 .research-year {
   font-size: 10px;
@@ -194,6 +241,56 @@
   opacity: 0.55;
 }
 
+/* =========================================================
+   PDF VIEWER
+========================================================= */
+#pdf-overlay {
+  position: fixed;
+  z-index: 300;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+}
+
+#pdf-overlay.open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.5s ease;
+}
+
+#pdf-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background: #fff;
+}
+
+.pdf-overlay-close {
+  position: absolute;
+  z-index: 310;
+  top: 22px;
+  right: 25px;
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-family: "Libre Baskerville", serif;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.pdf-overlay-close:hover { opacity: 0.5; }
+
 @media (max-width: 700px) {
   .quiet-navigation { top: 18px; left: 18px; right: 18px; font-size: 8px; }
   .quiet-nav-links { gap: 10px; }
@@ -207,6 +304,57 @@
 </style>
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const pdfOverlay = document.getElementById("pdf-overlay");
+  const pdfFrame = document.getElementById("pdf-frame");
+  const closePdfButton = document.getElementById("close-pdf");
+
+  function openPdf(url) {
+    pdfFrame.src = url;
+    pdfOverlay.classList.add("open");
+  }
+
+  function closePdf() {
+    pdfOverlay.classList.remove("open");
+    pdfFrame.src = ""; // stop loading/rendering once closed
+  }
+
+  function activateEntry(entry) {
+    const type = entry.dataset.type;
+    const href = entry.dataset.href;
+    if (!href) return;
+
+    if (type === "pdf") {
+      openPdf(href);
+    } else if (type === "link") {
+      window.open(href, "_blank", "noopener");
+    }
+  }
+
+  document.querySelectorAll(".research-entry").forEach(function (entry) {
+    entry.addEventListener("click", function () {
+      activateEntry(entry);
+    });
+
+    entry.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault(); // stop the page from scrolling on Space
+        activateEntry(entry);
+      }
+    });
+  });
+
+  closePdfButton.addEventListener("click", closePdf);
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") closePdf();
+  });
+
+});
+</script>
 
 <script src="/assets/site-transition.js"></script>
 </body>
